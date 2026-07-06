@@ -77,12 +77,4 @@ const MENU_ITEMS = [
   },
 ];
 
-export async function onRequestGet(context) {
-  return new Response(JSON.stringify({ items: MENU_ITEMS }), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
-}
+context.env.DB
