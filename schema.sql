@@ -1,2 +1,0 @@
-CREATE TABLE menu(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,description TEXT,price INTEGER,category TEXT,icon TEXT);
-CREATE TABLE orders(id INTEGER PRIMARY KEY AUTOINCREMENT,order_id TEXT,customer_name TEXT,customer_phone TEXT,items TEXT,total INTEGER,status TEXT,created_at TEXT);
