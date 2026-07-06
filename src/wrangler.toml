@@ -1,7 +1,12 @@
-name="jawain-coffee-shop"
-compatibility_date="2026-07-06"
+name = "jawain-coffee-shop"
+
+main = "src/index.js"
+
+compatibility_date = "2026-07-06"
+
+assets = { directory = "./" }
 
 [[d1_databases]]
-binding="DB"
-database_name="jawain-pos-api"
-database_id="a82a1f82-2a4f-4388-8b87-9e3b0f1f6f4f"
+binding = "DB"
+database_name = "jawain-pos-api"
+database_id = "a82a1f82-2a4f-4388-8b87-9e3b0f1f6f4f"
