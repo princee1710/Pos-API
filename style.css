@@ -1,0 +1,165 @@
+# ☕ JAWAIN — Website Kedai Kopi
+
+Website kedai kopi "JAWAIN" dengan tema **coklat, cream, dan latte**.
+Dibuat dengan **HTML, CSS, JavaScript** (frontend) dan **Cloudflare Pages Functions** (backend).
+
+Panduan ini ditulis untuk **pemula** — santai saja, ikuti satu per satu ya. 🙂
+
+---
+
+## 📁 1. Struktur Folder
+
+```
+jawain/
+├── index.html              -> Halaman utama website
+├── css/
+│   └── style.css           -> Semua tampilan (warna, layout, animasi)
+├── js/
+│   └── script.js           -> Logika: ambil menu, keranjang, kirim pesanan
+├── functions/
+│   └── api/
+│       ├── menu.js         -> Backend: GET /api/menu (daftar menu kopi)
+│       └── order.js        -> Backend: POST /api/order (kirim pesanan)
+├── package.json
+├── .gitignore
+└── postman_collection.json -> Untuk testing API di Postman
+```
+
+**Kenapa backend-nya cuma file .js di folder `functions`?**
+Karena kita pakai **Cloudflare Pages Functions**. Ini cara backend paling
+simpel untuk pemula: kamu tidak perlu menyewa server terpisah. Cukup taruh
+file di folder `functions/api/`, dan Cloudflare otomatis mengubahnya jadi
+API. Nama file = alamat API-nya.
+
+| File | Bisa diakses di |
+|---|---|
+| `functions/api/menu.js` | `/api/menu` |
+| `functions/api/order.js` | `/api/order` |
+
+---
+
+## 🧪 2. Coba Jalankan di Komputer Sendiri (Opsional tapi disarankan)
+
+Sebelum upload ke internet, enaknya coba dulu di laptop.
+
+1. Pastikan sudah install **Node.js** (download di [nodejs.org](https://nodejs.org), pilih versi LTS).
+2. Buka folder project ini lewat terminal (Command Prompt / Terminal / VS Code Terminal).
+3. Install Wrangler (alat resmi dari Cloudflare untuk development):
+   ```bash
+   npm install
+   ```
+4. Jalankan server lokal:
+   ```bash
+   npm run dev
+   ```
+5. Buka browser ke `http://localhost:8788` — website JAWAIN kamu harusnya sudah muncul, lengkap dengan menu yang otomatis ke-load dari backend.
+
+Kalau langkah ini berhasil, artinya frontend dan backend kamu sudah nyambung dengan benar. Lanjut ke GitHub!
+
+---
+
+## 🐙 3. Upload ke GitHub
+
+**Kenapa perlu GitHub?** Karena Cloudflare Pages nanti akan "mengintip" folder
+GitHub kamu, dan otomatis deploy setiap kali ada perubahan. Jadi GitHub itu
+seperti gudang penyimpanan kode kamu.
+
+### Langkah-langkah:
+
+1. Buat akun di [github.com](https://github.com) kalau belum punya.
+2. Klik tombol **"New repository"** (ikon `+` di kanan atas).
+3. Beri nama repo, misalnya `jawain-coffee-shop`. Pilih **Public** atau **Private**, lalu klik **Create repository**. Jangan centang "Add README" (karena kita sudah punya).
+4. Di terminal, masuk ke folder project ini, lalu jalankan perintah berikut satu per satu:
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Setup awal website JAWAIN"
+   git branch -M main
+   git remote add origin https://github.com/USERNAME-KAMU/jawain-coffee-shop.git
+   git push -u origin main
+   ```
+
+   > Ganti `USERNAME-KAMU` dengan username GitHub kamu, dan sesuaikan nama repo kalau berbeda.
+
+5. Refresh halaman GitHub kamu — semua file (index.html, css, js, functions, dll) harusnya sudah muncul di sana. 🎉
+
+---
+
+## ☁️ 4. Deploy ke Cloudflare Pages
+
+Ini bagian yang menghubungkan GitHub kamu ke internet, supaya websitenya bisa diakses semua orang secara gratis.
+
+1. Buat akun di [dash.cloudflare.com](https://dash.cloudflare.com) (gratis).
+2. Di sidebar kiri, cari menu **Workers & Pages** → klik **Create** → pilih tab **Pages**.
+3. Klik **Connect to Git**, lalu login/hubungkan akun GitHub kamu (Cloudflare akan minta izin akses).
+4. Pilih repository `jawain-coffee-shop` yang tadi kamu buat.
+5. Di halaman pengaturan build, isi seperti ini:
+   | Pengaturan | Nilai |
+   |---|---|
+   | **Framework preset** | `None` |
+   | **Build command** | *(kosongkan saja)* |
+   | **Build output directory** | `/` (titik satu, artinya folder utama) |
+6. Klik **Save and Deploy**.
+7. Tunggu 1-2 menit. Setelah selesai, Cloudflare akan kasih kamu URL seperti:
+   ```
+   https://jawain-coffee-shop.pages.dev
+   ```
+8. Buka URL itu — website JAWAIN kamu sudah LIVE di internet! Coba klik-klik menu, tambah ke keranjang, dan kirim pesanan — backend (`/api/menu` dan `/api/order`) otomatis jalan juga karena ada di folder `functions/`. Kamu tidak perlu setting backend terpisah. 🎉
+
+### Update website di kemudian hari
+
+Setiap kali kamu ubah kode dan jalankan:
+```bash
+git add .
+git commit -m "Update tampilan menu"
+git push
+```
+Cloudflare Pages akan **otomatis** build ulang & deploy versi terbaru. Tidak perlu klik apa-apa lagi di dashboard.
+
+---
+
+## 📮 5. Testing API dengan Postman
+
+Postman berguna untuk mengecek apakah backend kamu (`/api/menu`, `/api/order`) berjalan dengan benar, terpisah dari tampilan website.
+
+1. Download & install [Postman](https://www.postman.com/downloads/) kalau belum punya.
+2. Buka Postman → klik **Import** (pojok kiri atas).
+3. Pilih file `postman_collection.json` yang ada di folder project ini.
+4. Setelah ter-import, kamu akan lihat koleksi bernama **"JAWAIN API"** dengan 3 request siap pakai:
+   - **Ambil Daftar Menu** (GET)
+   - **Kirim Pesanan** (POST, contoh data valid)
+   - **Kirim Pesanan (Data Tidak Lengkap - contoh error)** (POST, buat lihat pesan error)
+5. Klik koleksinya → tab **Variables** → ubah nilai `base_url`:
+   - Kalau testing di komputer sendiri (langkah 2 tadi): `http://localhost:8788`
+   - Kalau testing yang sudah online di Cloudflare: `https://jawain-coffee-shop.pages.dev` (ganti sesuai URL kamu)
+6. Klik **Save**, lalu buka request **"Ambil Daftar Menu"** → klik tombol **Send**.
+7. Kalau berhasil, kamu akan lihat respons JSON berisi daftar menu kopi di bagian bawah.
+8. Coba juga request **"Kirim Pesanan"** → klik **Send** → kamu akan dapat respons berisi `orderId` (kode pesanan), tandanya backend berhasil memproses data.
+
+---
+
+## 🚀 6. Langkah Lanjutan (Kalau Mau Dikembangkan Lagi)
+
+Website ini sudah bisa jalan penuh (menu tampil, keranjang jalan, pesanan terkirim).
+Tapi ada beberapa hal yang bisa kamu tambahkan nanti kalau sudah lebih mahir:
+
+- **Simpan pesanan secara permanen** — pakai [Cloudflare D1](https://developers.cloudflare.com/d1/) (database gratis) atau [Cloudflare KV](https://developers.cloudflare.com/kv/) (penyimpanan key-value), supaya pesanan tidak hilang dan bisa dilihat di dashboard admin.
+- **Kirim notifikasi WhatsApp/Email otomatis** saat ada pesanan masuk, misalnya pakai layanan seperti Fonnte atau Resend.
+- **Halaman admin** untuk melihat daftar pesanan yang masuk.
+- **Custom domain** — di Cloudflare Pages, kamu bisa hubungkan domain sendiri (misal `jawain.id`) menggantikan `.pages.dev`, gratis di menu **Custom domains**.
+
+---
+
+## ❓ Troubleshooting Umum
+
+| Masalah | Kemungkinan Penyebab |
+|---|---|
+| Menu tidak muncul, tulisan "Gagal memuat menu" | Backend belum jalan. Kalau di lokal, pastikan pakai `npm run dev`, jangan buka `index.html` langsung dua kali klik di file explorer. |
+| Setelah deploy, `/api/menu` error 404 | Cek folder `functions/api/menu.js` sudah ter-upload ke GitHub (lihat lagi langkah 3). |
+| Tombol "Pesan Sekarang" gagal terus | Buka tab **Network** di DevTools browser (klik kanan → Inspect → Network), lihat error di request `/api/order`. |
+| `git push` minta login terus | Gunakan [Personal Access Token](https://github.com/settings/tokens) GitHub sebagai pengganti password, atau setup SSH key. |
+
+---
+
+Selamat mencoba! Kalau ada error atau bingung di salah satu langkah, tinggal tanya lagi ya — sertakan pesan error-nya biar bisa dibantu lebih cepat. ☕

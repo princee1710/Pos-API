@@ -1,10 +1,5 @@
-Kelompok POS :
-- Falah Musyaffa Satin (0080)
-- Ichwan Hisbullah (0067)
-- Restu Muhamad (0098)
-- Jendersen (0072)
-- Aditya Yovan Nurhakim (0015)
-- Yudan Saptayana ( 0051)
-- Aditya Eka Saputra (0048)
-- Valdinata alfauzan (0047)
-- Muhammad Ramdani (0049)
+node_modules/
+.wrangler/
+.DS_Store
+*.log
+.env
