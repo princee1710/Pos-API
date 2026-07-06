@@ -217,6 +217,11 @@ document.getElementById("orderForm").addEventListener("submit", async (e) => {
 document.getElementById("burgerBtn").addEventListener("click", () => {
   document.getElementById("navLinks").classList.toggle("is-open");
 });
+document.querySelectorAll(".nav__links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    document.getElementById("navLinks").classList.remove("is-open");
+  });
+});
 
 // ---------------------------------------------------------------------
 // INIT
