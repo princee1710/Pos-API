@@ -2,7 +2,5 @@ name = "jawain-coffee-shop"
 compatibility_date = "2026-07-06"
 
 [[d1_databases]]
-binding = "jawain-pos-api"
+binding = "jawain-coffe-shop"
 database_name = "jawain-pos-api"
-
-directory = "./dist"
