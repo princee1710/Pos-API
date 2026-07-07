@@ -246,13 +246,37 @@ function drawDashedLine(ctx, x1, y, x2, y2) {
   ctx.restore();
 }
 
+function calculateReceiptHeight(order) {
+  // Simulasi persis kenaikan posisi Y yang dipakai saat menggambar,
+  // supaya tinggi kanvas selalu pas (tidak kepotong / tidak kepanjangan).
+  let y = 120;
+  y += 20; // No. Pesanan
+  y += 20; // Tanggal
+  y += 20; // Nama
+  y += 20; // WhatsApp
+  if (order.customer.catatan) y += 20; // Catatan (opsional)
+  y += 6;  // jarak sebelum garis putus-putus
+  y += 26; // jarak setelah garis putus-putus, sebelum daftar item
+
+  order.items.forEach(() => {
+    y += 18; // baris nama item
+    y += 22; // baris qty x harga
+  });
+
+  y += 4;  // jarak sebelum garis putus-putus
+  y += 30; // jarak setelah garis, sampai baris TOTAL
+  y += 38; // jarak dari TOTAL ke baris ucapan pertama
+  y += 18; // baris ucapan kedua
+  y += 26; // padding bawah, biar tidak mepet
+
+  return y;
+}
+
 function generateReceiptCanvas(order) {
   const width = 380;
   const padding = 24;
   const lineHeight = 22;
-  // Perkiraan tinggi total berdasarkan jumlah baris item + catatan
-  const catatanExtra = order.customer.catatan ? 20 : 0;
-  const height = 300 + catatanExtra + order.items.length * lineHeight;
+  const height = calculateReceiptHeight(order);
 
   const canvas = document.createElement("canvas");
   // Scale 2x supaya hasil download tetap tajam (retina-friendly)
